@@ -1,0 +1,317 @@
+diff -Nur Audio-MPEG-0.04.orig/MPEG.xs Audio-MPEG-0.04/MPEG.xs
+--- Audio-MPEG-0.04.orig/MPEG.xs	Mon Jun 18 06:19:40 2001
++++ Audio-MPEG-0.04/MPEG.xs	Sun Aug  4 23:21:59 2002
+@@ -584,7 +584,7 @@
+ 		char *CLASS = NO_INIT
+ 		SV *params_data_ref
+ 	PREINIT:
+-		lame_t *flags;
++		lame_t flags;
+ 		HV *params_data;
+ 		SV **hval;
+ 		char *key;
+@@ -594,7 +594,7 @@
+ 		STRLEN arglen;
+ 	CODE:
+ 		/* initialize the library */
+-		if ((flags = lame_init()) == (lame_t *)-1) {
++		if ((flags = lame_init()) == (lame_t)-1) {
+ 			warn("error initializing LAME library");
+ 			XSRETURN_UNDEF;
+ 		}
+@@ -609,9 +609,9 @@
+ 			/* number of input channels */
+ 			key = "in_channels";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->num_channels =  SvIV(*hval);
++				lame_set_num_channels(flags, SvIV(*hval));
+ 			else {
+-				flags->num_channels = 2;
++				lame_set_num_channels(flags, 2);
+ 			}
+ 
+ 			/* input sample rate (in Hz).
+@@ -633,7 +633,7 @@
+ 				case 32000:
+ 				case 44100:
+ 				case 48000:
+-					flags->in_samplerate = argint;
++					lame_set_in_samplerate(flags, argint);
+ 				break;
+ 				default:
+ 					warn("input sample frequency invalid");
+@@ -641,7 +641,7 @@
+ 				break;
+ 				}
+ 			} else {
+-				flags->in_samplerate = 44100;
++				lame_set_in_samplerate(flags, 44100);
+ 			}
+ 			
+ 			/* output sample rate (in Hz). default is 0 (LAME picks best)
+@@ -710,19 +710,19 @@
+ 			/* use free format. default = 0 (disabled) */
+ 			key = "free_format";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->free_format =  SvIV(*hval);
++				lame_set_free_format(flags, SvIV(*hval));
+ 
+ 			/* desired constant bitrate */
+ 			key = "bit_rate";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->brate =  SvIV(*hval);
++				lame_set_brate(flags, SvIV(*hval));
+ 
+ 			/* desired comp ratio. default is 11. interacts with bitrate */
+ 			key = "compression_ratio";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->compression_ratio = SvNV(*hval);
++				lame_set_compression_ratio(flags, SvNV(*hval));
+ 
+-			if (flags->brate && flags->compression_ratio) {
++			if (lame_get_brate(flags) && lame_get_compression_ratio(flags)) {
+ 				warn("both bitrate and compression ratio set");
+ 				XSRETURN_UNDEF;
+ 			}
+@@ -730,48 +730,48 @@
+ 			/* mark as copyright. default is 0 */
+ 			key = "copyright";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->copyright = SvIV(*hval);
++				lame_set_copyright(flags, SvIV(*hval));
+ 
+ 			/* mark as original. default is 1 */
+ 			key = "original";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->original = SvIV(*hval);
++				lame_set_original(flags, SvIV(*hval));
+ 
+ 			/* generate CRCs. default is 0 */
+ 			key = "CRC";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->error_protection = SvIV(*hval);
++				lame_set_error_protection(flags, SvIV(*hval));
+ 
+ 			/* padding type. 0=pad no frames, 1=pad all frames, 2=adjust
+ 			   padding (default)
+ 			key = "padding_type";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->padding_type = SvIV(*hval);
++				lame_set_padding_type(flags, SvIV(*hval)); */
+ 
+ 			/* enforce strict ISO compliance. default=0 */
+ 			key = "strict";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->strict_ISO = SvIV(*hval);
++				lame_set_strict_ISO(flags, SvIV(*hval));
+ 
+ 			/* VBR type: 0=off,1=mt,2=rh,3=abr,4=mtrh default 0 */
+ 			key = "vbr";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE))
+ 				!= NULL) {
+-				if (flags->brate || flags->compression_ratio) {
++				if (lame_get_brate(flags) || lame_get_compression_ratio(flags)) {
+ 					warn("both fixed and variable bitrate set");
+ 					XSRETURN_UNDEF;
+ 				}
+ 				argstr = SvPV(*hval, arglen);
+ 				if (strEQ(argstr, "vbr"))
+-					flags->VBR = vbr_default;
++					lame_set_VBR(flags, vbr_default);
+ 				else if (strEQ(argstr, "1"))
+-					flags->VBR = vbr_default;
++					lame_set_VBR(flags, vbr_default);
+ 				else if (strEQ(argstr, "old"))
+-					flags->VBR = vbr_rh;
++					lame_set_VBR(flags, vbr_rh);
+ 				else if (strEQ(argstr, "new"))
+-					flags->VBR = vbr_mt;
++					lame_set_VBR(flags, vbr_mt);
+ 				else if (strEQ(argstr, "mtrh"))
+-					flags->VBR = vbr_mtrh;
++					lame_set_VBR(flags, vbr_mtrh);
+ 				else {
+ 					warn("invalid VBR setting");
+ 					XSRETURN_UNDEF;
+@@ -781,60 +781,60 @@
+ 			/* VBR quality: 0 = highest, 9 = lowest */
+ 			key = "vbr_quality";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->VBR_q = SvIV(*hval);
++				lame_set_VBR_q(flags, SvIV(*hval));
+ 
+ 			/* Average VBR */
+ 			key = "average_bitrate";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE))
+ 				!= NULL) {
+-				if (flags->brate || flags->compression_ratio) {
++				if (lame_get_brate(flags) || lame_get_compression_ratio(flags)) {
+ 					warn("both fixed and average bitrate set");
+ 					XSRETURN_UNDEF;
+ 				}
+-				flags->VBR = vbr_abr;
+-				flags->VBR_mean_bitrate_kbps = SvIV(*hval);
+-				if (flags->VBR_mean_bitrate_kbps >= 8000) {
+-					flags->VBR_mean_bitrate_kbps =
+-						(flags->VBR_mean_bitrate_kbps + 500) / 1000;
+-					flags->VBR_mean_bitrate_kbps =
+-						Min(flags->VBR_mean_bitrate_kbps, 320);
+-					flags->VBR_mean_bitrate_kbps =
+-						Max(flags->VBR_mean_bitrate_kbps, 8);
++				lame_set_VBR(flags, vbr_abr);
++				lame_set_VBR_mean_bitrate_kbps(flags, SvIV(*hval));
++				if (lame_get_VBR_mean_bitrate_kbps(flags) >= 8000) {
++					lame_set_VBR_mean_bitrate_kbps(flags,
++						(lame_get_VBR_mean_bitrate_kbps(flags) + 500) / 1000);
++					lame_set_VBR_mean_bitrate_kbps(flags,
++						Min(lame_get_VBR_mean_bitrate_kbps(flags), 320));
++					lame_set_VBR_mean_bitrate_kbps(flags,
++						Max(lame_get_VBR_mean_bitrate_kbps(flags), 8));
+ 				}
+ 			}
+ 
+ 			/* min/max bitrates for VBR */
+ 			key = "min_bit_rate";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->VBR_min_bitrate_kbps = SvIV(*hval) / 1000;
++				lame_set_VBR_min_bitrate_kbps(flags, SvIV(*hval) / 1000);
+ 			key = "min_hard_bit_rate";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->VBR_hard_min = SvIV(*hval) / 1000;
++				lame_set_VBR_hard_min(flags, SvIV(*hval) / 1000);
+ 			key = "max_bit_rate";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->VBR_max_bitrate_kbps = SvIV(*hval) / 1000;
++				lame_set_VBR_max_bitrate_kbps(flags, SvIV(*hval) / 1000);
+ 
+ 			/* filtering. 0 = LAME chooses (default), -1 = disabled,
+ 			   otherwise Hz of filter. valid are 1 .. 50,000 Hz  */
+ 			key = "lowpass_filter_frequency";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->lowpassfreq = SvIV(*hval);
++				lame_set_lowpassfreq(flags, SvIV(*hval));
+ 			key = "lowpass_filter_width";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->lowpasswidth = SvIV(*hval);
++				lame_set_lowpasswidth(flags, SvIV(*hval));
+ 			key = "no_lowpass_filter";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->lowpassfreq = -1;
++				lame_set_lowpassfreq(flags, -1);
+ 			
+ 			key = "highpass_filter_frequency";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->highpassfreq = SvIV(*hval);
++				lame_set_highpassfreq(flags, SvIV(*hval));
+ 			key = "highpass_filter_width";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->highpasswidth = SvIV(*hval);
++				lame_set_highpasswidth(flags, SvIV(*hval));
+ 			key = "no_highpass_filter";
+ 			if ((hval = hv_fetch(params_data, key, strlen(key), FALSE)) != NULL)
+-				flags->highpassfreq = -1;
++				lame_set_highpassfreq(flags, -1);
+ 
+ 			key = "apply_delay";
+ 			RETVAL->encode_delay_applied = 1;
+@@ -866,7 +866,7 @@
+ encoder_delay(THIS)
+ 		Audio_MPEG_Encode THIS
+ 	CODE:
+-		RETVAL = THIS->flags->encoder_delay;
++		RETVAL = lame_get_encoder_delay(THIS->flags);
+ 	OUTPUT:
+ 		RETVAL
+ 
+@@ -892,16 +892,16 @@
+ 		if (! THIS->encode_delay_applied) {
+ 			/* skip n input samples to compensate for encoding delay */
+ 			THIS->encode_delay_applied = 1;
+-			pcm += THIS->flags->encoder_delay * sizeof(float) *
+-				THIS->flags->num_channels;
+-			pcm_len -= THIS->flags->encoder_delay;
+-			if ((pcm_len -= THIS->flags->encoder_delay) < 1) {
++			pcm += lame_get_encoder_delay(THIS->flags) * sizeof(float) *
++				lame_get_num_channels(THIS->flags);
++			pcm_len -= lame_get_encoder_delay(THIS->flags);
++			if ((pcm_len -= lame_get_encoder_delay(THIS->flags)) < 1) {
+ 				warn("pcm sample length is less than 0 after encoder delay compensation");
+ 				XSRETURN_UNDEF;
+ 			}
+ 		}
+ 		encode_len = lame_encode_buffer_interleaved_float(THIS->flags,
+-			(float *)pcm, pcm_len / sizeof(float) / THIS->flags->num_channels,
++			(float *)pcm, pcm_len / sizeof(float) / lame_get_num_channels(THIS->flags),
+ 			out, LAME_MAXMP3BUFFER);
+ 		XPUSHs(sv_2mortal(newSVpvn(out, encode_len)));
+ 
+@@ -927,21 +927,21 @@
+ 		if (! THIS->encode_delay_applied) {
+ 			/* skip n input samples to compensate for encoding delay */
+ 			THIS->encode_delay_applied = 1;
+-			pcm += THIS->flags->encoder_delay * sizeof(short) *
+-				THIS->flags->num_channels;
+-			if ((pcm_len -= THIS->flags->encoder_delay) < 1) {
++			pcm += lame_get_encoder_delay(THIS->flags) * sizeof(short) *
++				lame_get_num_channels(THIS->flags);
++			if ((pcm_len -= lame_get_encoder_delay(THIS->flags)) < 1) {
+ 				warn("pcm sample length is less than 0 after encoder delay compensation");
+ 				XSRETURN_UNDEF;
+ 			}
+ 		}
+-		if (THIS->flags->num_channels == 2) {
++		if (lame_get_num_channels(THIS->flags) == 2) {
+ 			encode_len = lame_encode_buffer_interleaved(THIS->flags,
+ 				(short *)pcm, pcm_len / sizeof(short) /
+-				THIS->flags->num_channels, out, LAME_MAXMP3BUFFER);
++				lame_get_num_channels(THIS->flags), out, LAME_MAXMP3BUFFER);
+ 		} else {
+ 			encode_len = lame_encode_buffer(THIS->flags,
+ 				(short *)pcm, (short *)pcm, pcm_len / sizeof(short) /
+-				THIS->flags->num_channels, out, LAME_MAXMP3BUFFER);
++				lame_get_num_channels(THIS->flags), out, LAME_MAXMP3BUFFER);
+ 		}
+ 		XPUSHs(sv_2mortal(newSVpvn(out, encode_len)));
+ 
+diff -Nur Audio-MPEG-0.04.orig/encode.c Audio-MPEG-0.04/encode.c
+--- Audio-MPEG-0.04.orig/encode.c	Sun Jun 17 03:37:51 2001
++++ Audio-MPEG-0.04/encode.c	Sun Aug  4 23:22:39 2002
+@@ -26,7 +26,7 @@
+  */
+ 
+ unsigned int
+-lame_encode_buffer_interleaved_float(lame_t *flags, float *pcm,
++lame_encode_buffer_interleaved_float(lame_t flags, float *pcm,
+ 	unsigned int len, unsigned char *out, unsigned int outlen)
+ 
+ {
+@@ -36,7 +36,7 @@
+ 
+ 	for (i = 0; i < len; i++) {
+ 		left[i] = *pcm++ * 32768.0;		/* LAME assumes +/- 2e15 */
+-		if (flags->num_channels == 1)
++		if (lame_get_num_channels(flags) == 1)
+ 			right[i] = left[i];
+ 		else
+ 			right[i] = *pcm++ * 32768.0;
+diff -Nur Audio-MPEG-0.04.orig/encode.h Audio-MPEG-0.04/encode.h
+--- Audio-MPEG-0.04.orig/encode.h	Sun Jun 17 03:37:51 2001
++++ Audio-MPEG-0.04/encode.h	Sun Aug  4 23:22:11 2002
+@@ -26,7 +26,7 @@
+ #include "audio.h"
+ 
+ struct audio_mpeg_encode {
+-	lame_t					*flags;
++	lame_t					flags;
+ 	unsigned int			encode_delay_applied;
+ };
+ 
+@@ -34,7 +34,7 @@
+ 
+ int encode_new(Audio_MPEG_Encode);
+ void encode_DESTROY(Audio_MPEG_Encode);
+-unsigned int lame_encode_buffer_interleaved_float(lame_t *, float *,
++unsigned int lame_encode_buffer_interleaved_float(lame_t, float *,
+ 	unsigned int, unsigned char *, unsigned int);
+ 
+ #endif
