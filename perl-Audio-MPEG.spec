@@ -15,8 +15,8 @@ Source0:	http://www.cpan.org/modules/by-module/%{pdir}/%{pdir}-%{pnam}-%{version
 # Source0-md5:	9c5b09cf06c934a001b81c05f786a295
 Patch0:		%{name}-lame-fix.patch
 BuildRequires:	lame-libs-devel
-BuildRequires:	mad-devel
-BuildRequires:	perl-devel >= 5.6
+BuildRequires:	libmad-devel
+BuildRequires:	perl-devel >= 1:5.8.0
 BuildRequires:	rpm-perlprov >= 4.1-13
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
