@@ -45,7 +45,7 @@ strumieni PCM do MP3.
 %{__make} OPTIMIZE="%{rpmcflags}"
 
 # "encode" tests and half of "wave" test fail
-#%{!?_without_tests:%{__make} test}
+#%%{!?_without_tests:%{__make} test}
 
 %install
 rm -rf $RPM_BUILD_ROOT
