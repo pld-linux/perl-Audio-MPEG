@@ -41,7 +41,7 @@ strumieni PCM do MP3.
 %patch -p1
 
 %build
-perl Makefile.PL
+%{__perl} Makefile.PL
 %{__make} OPTIMIZE="%{rpmcflags}"
 
 # "encode" tests and half of "wave" test fail
