@@ -12,6 +12,7 @@ Release:	3
 License:	GPL
 Group:		Development/Languages/Perl
 Source0:	http://www.cpan.org/modules/by-module/%{pdir}/%{pdir}-%{pnam}-%{version}.tar.gz
+# Source0-md5:	9c5b09cf06c934a001b81c05f786a295
 Patch0:		%{name}-lame-fix.patch
 BuildRequires:	lame-libs-devel
 BuildRequires:	mad-devel
