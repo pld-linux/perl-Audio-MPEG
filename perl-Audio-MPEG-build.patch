@@ -1,0 +1,11 @@
+--- Audio-MPEG-0.04/audio.c.orig	2001-06-18 05:37:23.000000000 +0200
++++ Audio-MPEG-0.04/audio.c	2004-05-08 18:21:00.943774475 +0200
+@@ -983,7 +983,7 @@
+ 				 struct audio_dither_err *dither_err)
+ {
+   float *data_f = (float *)data;
+-  mad_fixed_t long sample0, sample1;
++  mad_fixed_t sample0, sample1;
+   unsigned int len;
+ 
+   len = nsamples;
