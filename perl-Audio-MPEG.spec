@@ -8,7 +8,7 @@ Summary:	Audio::MPEG Perl module - encoding and decoding of MPEG Audio
 Summary(pl):	Modu³ Perla Audio::MPEG - kodowanie i dekodowanie d¼wiêku MPEG
 Name:		perl-Audio-MPEG
 Version:	0.04
-Release:	2
+Release:	3
 License:	GPL
 Group:		Development/Languages/Perl
 Source0:	http://www.cpan.org/modules/by-module/%{pdir}/%{pdir}-%{pnam}-%{version}.tar.gz
@@ -16,7 +16,7 @@ Patch0:		%{name}-lame-fix.patch
 BuildRequires:	lame-libs-devel
 BuildRequires:	mad-devel
 BuildRequires:	perl-devel >= 5.6
-BuildRequires:	rpm-perlprov >= 3.0.3-16
+BuildRequires:	rpm-perlprov >= 4.0.2-104
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
