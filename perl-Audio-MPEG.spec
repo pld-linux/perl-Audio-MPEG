@@ -8,7 +8,7 @@ Summary:	Audio::MPEG Perl module - encoding and decoding of MPEG Audio
 Summary(pl):	Modu³ Perla Audio::MPEG - kodowanie i dekodowanie d¼wiêku MPEG
 Name:		perl-Audio-MPEG
 Version:	0.04
-Release:	2
+Release:	3
 License:	GPL
 Group:		Development/Languages/Perl
 Source0:	http://www.cpan.org/modules/by-module/%{pdir}/%{pdir}-%{pnam}-%{version}.tar.gz
@@ -16,7 +16,7 @@ Patch0:		%{name}-lame-fix.patch
 BuildRequires:	lame-libs-devel
 BuildRequires:	mad-devel
 BuildRequires:	perl-devel >= 5.6
-BuildRequires:	rpm-perlprov >= 3.0.3-16
+BuildRequires:	rpm-perlprov >= 4.1-13
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -41,7 +41,8 @@ strumieni PCM do MP3.
 %patch -p1
 
 %build
-%{__perl} Makefile.PL
+%{__perl} Makefile.PL \
+	INSTALLDIRS=vendor 
 %{__make} OPTIMIZE="%{rpmcflags}"
 
 # "encode" tests and half of "wave" test fail
@@ -59,8 +60,8 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %doc Changes README
-%{perl_sitearch}/Audio/MPEG.pm
-%dir %{perl_sitearch}/auto/Audio/MPEG
-%{perl_sitearch}/auto/Audio/MPEG/*.bs
-%attr(755,root,root) %{perl_sitearch}/auto/Audio/MPEG/*.so
+%{perl_vendorarch}/Audio/MPEG.pm
+%dir %{perl_vendorarch}/auto/Audio/MPEG
+%{perl_vendorarch}/auto/Audio/MPEG/*.bs
+%attr(755,root,root) %{perl_vendorarch}/auto/Audio/MPEG/*.so
 %{_mandir}/man3/*
