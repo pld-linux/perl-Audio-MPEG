@@ -4,8 +4,8 @@
 #		(fails probably because of libmad version different from reference one)
 #
 %include	/usr/lib/rpm/macros.perl
-%define	pdir	Audio
-%define	pnam	MPEG
+%define		pdir	Audio
+%define		pnam	MPEG
 Summary:	Audio::MPEG Perl module - encoding and decoding of MPEG Audio
 Summary(pl):	Modu³ Perla Audio::MPEG - kodowanie i dekodowanie d¼wiêku MPEG
 Name:		perl-Audio-MPEG
@@ -35,7 +35,7 @@ stream as an MP3.
 Ten modu³ umo¿liwia programom w Perlu weryfikacjê plików MP3 (o
 zmiennej i sta³ej prêdko¶ci strumienia), dekodowanie ich do strumienia
 PCM o du¿ej rozdzielczo¶ci (24 bity), przepuszczanie przez filtry
-efektów  (stereo->moni, wchodzenie/wyciszanie, equalizer),
+efektów (stereo->moni, wchodzenie/wyciszanie, equalizer),
 przekszta³canie tego strumienia na strumieñ d¼wiêkowy (WAV, Sun AU,
 ca³kowitoliczbowy PCM, zmiennoprzecinkowy PCM) i w koñcu kodowanie
 strumieni PCM do MP3.
