@@ -43,7 +43,7 @@ strumieni PCM do MP3.
 
 %build
 %{__perl} Makefile.PL \
-	INSTALLDIRS=vendor 
+	INSTALLDIRS=vendor
 %{__make} OPTIMIZE="%{rpmcflags}"
 
 # "encode" tests and half of "wave" test fail
