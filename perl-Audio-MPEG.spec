@@ -4,8 +4,8 @@
 #		(fails probably because of libmad version different from reference one)
 #
 %include	/usr/lib/rpm/macros.perl
-%define		pdir	Audio
-%define		pnam	MPEG
+%define	pdir	Audio
+%define	pnam	MPEG
 Summary:	Audio::MPEG Perl module - encoding and decoding of MPEG Audio
 Summary(pl):	Modu³ Perla Audio::MPEG - kodowanie i dekodowanie d¼wiêku MPEG
 Name:		perl-Audio-MPEG
