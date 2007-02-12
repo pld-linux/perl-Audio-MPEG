@@ -7,7 +7,7 @@
 %define		pdir	Audio
 %define		pnam	MPEG
 Summary:	Audio::MPEG Perl module - encoding and decoding of MPEG Audio
-Summary(pl):	Modu≥ Perla Audio::MPEG - kodowanie i dekodowanie dºwiÍku MPEG
+Summary(pl.UTF-8):   Modu≈Ç Perla Audio::MPEG - kodowanie i dekodowanie d≈∫wiƒôku MPEG
 Name:		perl-Audio-MPEG
 Version:	0.04
 Release:	5
@@ -31,13 +31,13 @@ in/out, equalizer), transform that stream into an audio stream (WAV,
 Sun AU, integer PCM, floating point PCM), and finally encode a PCM
 stream as an MP3.
 
-%description -l pl
-Ten modu≥ umoøliwia programom w Perlu weryfikacjÍ plikÛw MP3 (o
-zmiennej i sta≥ej prÍdko∂ci strumienia), dekodowanie ich do strumienia
-PCM o duøej rozdzielczo∂ci (24 bity), przepuszczanie przez filtry
-efektÛw (stereo->moni, wchodzenie/wyciszanie, equalizer),
-przekszta≥canie tego strumienia na strumieÒ dºwiÍkowy (WAV, Sun AU,
-ca≥kowitoliczbowy PCM, zmiennoprzecinkowy PCM) i w koÒcu kodowanie
+%description -l pl.UTF-8
+Ten modu≈Ç umo≈ºliwia programom w Perlu weryfikacjƒô plik√≥w MP3 (o
+zmiennej i sta≈Çej prƒôdko≈õci strumienia), dekodowanie ich do strumienia
+PCM o du≈ºej rozdzielczo≈õci (24 bity), przepuszczanie przez filtry
+efekt√≥w (stereo->moni, wchodzenie/wyciszanie, equalizer),
+przekszta≈Çcanie tego strumienia na strumie≈Ñ d≈∫wiƒôkowy (WAV, Sun AU,
+ca≈Çkowitoliczbowy PCM, zmiennoprzecinkowy PCM) i w ko≈Ñcu kodowanie
 strumieni PCM do MP3.
 
 %prep
