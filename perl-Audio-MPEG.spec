@@ -7,7 +7,7 @@
 %define		pdir	Audio
 %define		pnam	MPEG
 Summary:	Audio::MPEG Perl module - encoding and decoding of MPEG Audio
-Summary(pl.UTF-8):   Moduł Perla Audio::MPEG - kodowanie i dekodowanie dźwięku MPEG
+Summary(pl.UTF-8):	Moduł Perla Audio::MPEG - kodowanie i dekodowanie dźwięku MPEG
 Name:		perl-Audio-MPEG
 Version:	0.04
 Release:	5
