@@ -70,6 +70,5 @@ rm -rf $RPM_BUILD_ROOT
 %doc Changes README
 %{perl_vendorarch}/Audio/MPEG.pm
 %dir %{perl_vendorarch}/auto/Audio/MPEG
-%{perl_vendorarch}/auto/Audio/MPEG/*.bs
 %attr(755,root,root) %{perl_vendorarch}/auto/Audio/MPEG/*.so
 %{_mandir}/man3/*
