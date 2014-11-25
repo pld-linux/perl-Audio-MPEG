@@ -2,10 +2,10 @@
 # Conditional build:
 %bcond_with	tests	# do perform "make test"
 #		(fails probably because of libmad version different from reference one)
-#
-%include	/usr/lib/rpm/macros.perl
+
 %define		pdir	Audio
 %define		pnam	MPEG
+%include	/usr/lib/rpm/macros.perl
 Summary:	Audio::MPEG Perl module - encoding and decoding of MPEG Audio
 Summary(pl.UTF-8):	Moduł Perla Audio::MPEG - kodowanie i dekodowanie dźwięku MPEG
 Name:		perl-Audio-MPEG
@@ -17,6 +17,7 @@ Source0:	http://www.cpan.org/modules/by-module/%{pdir}/%{pdir}-%{pnam}-%{version
 # Source0-md5:	9c5b09cf06c934a001b81c05f786a295
 Patch0:		%{name}-lame-fix.patch
 Patch1:		%{name}-build.patch
+URL:		http://search.cpan.org/dist/Audio-MPEG/
 BuildRequires:	lame-libs-devel
 BuildRequires:	libmad-devel
 BuildRequires:	perl-devel >= 1:5.8.0
