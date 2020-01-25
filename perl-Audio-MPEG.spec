@@ -5,7 +5,6 @@
 
 %define		pdir	Audio
 %define		pnam	MPEG
-%include	/usr/lib/rpm/macros.perl
 Summary:	Audio::MPEG Perl module - encoding and decoding of MPEG Audio
 Summary(pl.UTF-8):	Moduł Perla Audio::MPEG - kodowanie i dekodowanie dźwięku MPEG
 Name:		perl-Audio-MPEG
