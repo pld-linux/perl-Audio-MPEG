@@ -42,8 +42,8 @@ strumieni PCM do MP3.
 
 %prep
 %setup -q -n %{pdir}-%{pnam}-%{version}
-%patch0 -p1
-%patch1 -p1
+%patch -P0 -p1
+%patch -P1 -p1
 
 %build
 %{__perl} Makefile.PL \
